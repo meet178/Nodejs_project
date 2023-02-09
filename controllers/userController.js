@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken")
 const {JWT_SECRET} = require("../config")
 const { HTTP_STATUS_CONSTANTS } = require('../constants')
 const {responseHandler} = require("../utils")
+// const {sendEmail} = require("../utils")
 var userSchema = require("../schema/userSchema")
 
 // InsertData
@@ -37,7 +38,6 @@ module.exports = {
       console.log(req.body.email);
       userSchema.findOne({email:req.body.email},function(err,user){
         if(err) throw err
-        console.log(user);
 
         user.comparePassword(req.body.Password,function(err,isMatch)
         {
@@ -59,12 +59,27 @@ module.exports = {
           }
           else
           {
-            res.json({msg:"Email and Password is wrong"})
+            res.json({msg:"Email Or Password is wrong"})
           }
         })
       })
+    },
+
+    forgetPassword: async function(req,res){
+      const userEmail = await userSchema.findOne({email:req.body.email})
+      console.log(req.body.email);
+      if(userEmail)
+      {
+        sendEmail.sendSuccessResponse(
+          res,
+          "",
+          'Email Send',
+          HTTP_STATUS_CONSTANTS.OK
+        )
+      }
+      else
+      {
+        return("User is Not Found in DB")
+      }    
     }
-
-
-
 }

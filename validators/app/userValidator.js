@@ -10,7 +10,7 @@ class userSignup
     return Joi.object({
       body: Joi.object({
         Name: Joi.string().required(),
-        MoNum: Joi.number().min(10).max(10).required(),
+        MoNum: Joi.number().integer().min(10 ** 9).max(10 ** 10 - 1).required(),
         email: Joi.string().email().lowercase().required(),
         GST_Num: Joi.number().min(15).required(),
         Address: Joi.string(),
@@ -28,6 +28,14 @@ class userSignup
         Password: Joi.string().min(8).required()
       }).unknown(false),
     }).unknown()
+  }
+
+  forgetPassword(){
+    return Joi.object({
+      body: Joi.object({
+        email: Joi.string().email().lowercase().required(),
+      })
+    })
   }
 }
 

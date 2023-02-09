@@ -26,7 +26,7 @@ mongoose.connection.on(
 
   app.use("/ecommerce",router)
 
-let port = PORT || 6060;
+let port = PORT || 9999;
 app.listen(port, (req,res)=> {
     console.log(`The Port is : ${port}`);
 })
