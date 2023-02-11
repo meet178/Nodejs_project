@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require('express')
 const { JoiValidatorMiddleware } = require('../../middlewares')
-const {userSignup} = require("../../validators/app")
-const controller = require("../../controllers/userController")
+const {userSignup} = require('../../validators/app')
+const {userController} = require('../../controllers')
 
-const appRouter = express.Router();
+const appRouter = express.Router()
 
-appRouter.post("/signup", JoiValidatorMiddleware(userSignup.signUp()), controller.signUp);
-appRouter.post("/login", JoiValidatorMiddleware(userSignup.login()),controller.login)
-appRouter.post("/forgetPassword", JoiValidatorMiddleware(userSignup.forgetPassword()),controller.forgetPassword)
+appRouter.post('/signup', JoiValidatorMiddleware(userSignup.signUp()), userController.signUp)
+appRouter.post('/login', JoiValidatorMiddleware(userSignup.login()),userController.login)
+appRouter.get('/forgetPassword', JoiValidatorMiddleware(userSignup.forgetPassword()),userController.forgetPassword)
 
-module.exports = appRouter;
+module.exports = appRouter

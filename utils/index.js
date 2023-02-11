@@ -1,10 +1,10 @@
-// sendEmail = require('./sendEmail')
-ResponseHandler = require('./serverResponseutils'),
+const sendEmail = require("./sendEmail"),
+ResponseHandler = require('./serverResponseutils')
 
 /**
  * @exports Utils
  */
 module.exports = {
   responseHandler: new ResponseHandler(),
-  // sendEmail: new sendEmail(),
+  sendEmail
 }

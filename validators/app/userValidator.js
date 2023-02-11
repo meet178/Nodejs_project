@@ -33,9 +33,9 @@ class userSignup
   forgetPassword(){
     return Joi.object({
       body: Joi.object({
-        email: Joi.string().email().lowercase().required(),
-      })
-    })
+        email: Joi.string().email().lowercase().required()
+      }).unknown(false),
+    }).unknown()
   }
 }
 

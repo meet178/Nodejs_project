@@ -21,6 +21,7 @@ module.exports = (error, req, res, next) => {
     message: error.message,
     data: {},
   }
+
   console.log('ERROR: ', error.stack)
 
   return responseHandler.sendErrorResponse(
