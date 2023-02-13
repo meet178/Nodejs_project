@@ -27,7 +27,7 @@ mongoose.connection.on(
 
   app.use('/ecommerce',router)
 
-let port = PORT || 8989;
+let port = PORT || 9696;
 app.listen(port, ()=> {
     console.log(`Server is running on : ${port}`);
 })

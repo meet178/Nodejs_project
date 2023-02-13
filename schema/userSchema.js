@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-SALT_WORK_FACTOR = 10;
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt'),
+  SALT_WORK_FACTOR = 10
+const Schema = mongoose.Schema
 
 const userSchema = new Schema({
   Name: {
@@ -40,29 +40,29 @@ const userSchema = new Schema({
   File: {
     type: String,
   },
-});
+})
 userSchema.pre('save', function(next){
-   var user = this;
+  const user = this
 
-   if(!user.isModified('Password')) return next();
+  if(!user.isModified('Password')) return next()
 
-   bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt){
-      if(err) return next(err);
+  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt){
+    if(err) return next(err)
 
-      bcrypt.hash(user.Password , salt, function(err,hash){
-        if(err) return next(err);
+    bcrypt.hash(user.Password , salt, function(err,hash){
+      if(err) return next(err)
 
-        user.Password = hash;
-        next();
-      })
-   })
+      user.Password = hash
+      next()
+    })
   })
+})
 
-  userSchema.methods.comparePassword = function(candidatePassword, cb){
-    bcrypt.compare(candidatePassword, this.Password, function(err, isMatch){
-      if (err) return cb(err);
-      cb(null, isMatch)
-    });
-  };  
+userSchema.methods.comparePassword = function(candidatePassword, cb){
+  bcrypt.compare(candidatePassword, this.Password, function(err, isMatch){
+    if (err) return cb(err)
+    cb(null, isMatch)
+  })
+}  
   
-module.exports = mongoose.model("users", userSchema);
+module.exports = mongoose.model('users', userSchema)

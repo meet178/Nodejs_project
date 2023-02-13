@@ -1,26 +1,15 @@
-const productSchema = require("../schema/productSchema")
-const {responseHandler} = require("../utils")
-const {HTTP_STATUS_CONSTANTS} = require("../constants")
+const {responseHandler} = require('../utils')
+const {HTTP_STATUS_CONSTANTS} = require('../constants')
+const {productService} = require('../services')
 
 module.exports = {
-    productDetails:function(req,res,next){
-        productSchema.create({
-            productName: req.body.productName ,
-            productDescription: req.body.productDescription ,
-            productPrice: req.body.productPrice ,
-        },
-        function (err, response) {
-            if (err) next(err);
-            else {
-                responseHandler.sendSuccessResponse(
-                    res,
-                    "",
-                    'Product Added',
-                    HTTP_STATUS_CONSTANTS.OK,
-                  )
-              }
-          }
-        )
-    }
-
+  async productDetails(req, res) {
+    const productData=req.body
+    responseHandler.sendSuccessResponse(
+      res,
+      await productService.productDetails(productData),
+      'Product Added',
+      HTTP_STATUS_CONSTANTS.OK,
+    )      
+  }
 }

@@ -18,9 +18,10 @@ class userService {
           Password: userData.Password,
         },
       )
-      return {}
+      const Hello = 'Hello'
+      return Hello
     }catch(error){
-      // Console.log('ERROR: ', error)
+      console.log('ERROR: ', error)
       return {msg:'catch'}
     }
   }
@@ -39,21 +40,24 @@ class userService {
                 expiresIn:'2h',
               }
             )
-            return token
+            console.log(token)
+            const login_token = token
+            return login_token
           }
         })
       })
     }catch(error){
       console.log('ERROR: ', error)
-      return {}
     }
   }
-
+  
   async forgotPassword(forgotEmail) {
     try{
       userSchema.findOne({email:forgotEmail.email},function(err){
         if(err) throw err
       })
+      const Hello = 'Hello'
+      return Hello
     }catch(error){
       console.log('ERROR: ', error)
       return {}

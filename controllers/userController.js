@@ -13,13 +13,13 @@ class userController {
     )      
   }
 
-  async login(req,res)
+  login(req,res)
   {
     const loginDetails=req.body
     responseHandler.sendSuccessResponse(
       res,
       userService.login(loginDetails),
-      'Data inserted',
+      'User Login Succesfully',
       HTTP_STATUS_CONSTANTS.OK,
     )      
   }
@@ -32,8 +32,7 @@ class userController {
       userService.forgotPassword(forgotEmail),
       HTTP_STATUS_CONSTANTS.OK,
     )     
-  }
-  
+  }  
 }
 
 module.exports = userController

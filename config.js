@@ -1,4 +1,4 @@
-const PORT=8989
+const PORT=9696
 const mongoUrl='mongodb+srv://dhaval:1230@cluster0.0yjxc0e.mongodb.net/?retryWrites=true&w=majority'
 const JWT_SECRET='Jvz8oFqrgwYPyn^YmZ4IA@#$m0z8fHOzC6n@gLbsenMDM&%'
 const HOST=''

@@ -1,13 +1,14 @@
 const {responseHandler} = require('../utils')
-const {errResponseHandler} = require('../utils')
 const {HTTP_STATUS_CONSTANTS} = require('../constants')
 const {JWT_SECRET} = require('../config')
+const jwt = require('jsonwebtoken')
+const userSchema = require('../schema/userSchema')
 
 function jwtMiddleware(req,res,next){
   jwt.verify(req.headers.token, JWT_SECRET, async function(err,decoded){
     if(err)
     {
-      errResponseHandler.sendErrorResponse(
+      responseHandler.sendErrorResponse(
         res,
         '',
         err,
@@ -20,7 +21,7 @@ function jwtMiddleware(req,res,next){
       req.Userid = decoded.Userid
       if(!User)
       {
-        errResponseHandler.sendErrorResponse(
+        responseHandler.sendErrorResponse(
           res,
           '',
           err,
