@@ -3,12 +3,16 @@ const productSchema = require('../schema/productSchema')
 class productService { 
   productDetails(productData){
     try{
-      productSchema.create({
-        productName: productData.productName ,
-        productDescription: productData.productDescription ,
-        productPrice: productData.productPrice ,
+      return new Promise((resolve,reject) => {
+        const productDetails = productSchema.create({
+          productName: productData.productName ,
+          productDescription: productData.productDescription ,
+          productPrice: productData.productPrice ,
+        })
+        resolve(productDetails)
+        reject('rejected')
       })
-      return {}
+      // Return {productDetails}
     }catch(error){
       console.log(error)
     }

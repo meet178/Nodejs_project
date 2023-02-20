@@ -12,5 +12,4 @@ class productValidation
     }).unknown()
   }
 }
-
 module.exports = productValidation

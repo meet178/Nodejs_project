@@ -64,5 +64,6 @@ userSchema.methods.comparePassword = function(candidatePassword, cb){
     cb(null, isMatch)
   })
 }  
-  
+userSchema.index({ Name: 'text'})
+
 module.exports = mongoose.model('users', userSchema)
