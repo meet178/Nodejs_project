@@ -1,5 +1,4 @@
 const jwtMiddleware = require('./jwtMiddleware')
-
 JoiValidatorMiddleware = require('./joiMiddleware'),
 
 module.exports = {

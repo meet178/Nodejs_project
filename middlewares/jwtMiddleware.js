@@ -17,8 +17,9 @@ function jwtMiddleware(req,res,next){
     }
     else
     {
-      const User = await userSchema.find({Userid: decoded.Userid})
-      req.Userid = decoded.Userid
+      const User = await userSchema.find({_id: decoded.userid})
+      console.log('User',User)
+      req.Userid = decoded.userid
       if(!User)
       {
         responseHandler.sendErrorResponse(
@@ -27,10 +28,13 @@ function jwtMiddleware(req,res,next){
           err,
           HTTP_STATUS_CONSTANTS.BAD_REQUEST
         )
+
+      }
+      else{
+        next()        
       }
     }
   })
-  next()
 }
 
 module.exports = jwtMiddleware

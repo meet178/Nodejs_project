@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken')
 const {JWT_SECRET} = require('../config')
 const userSchema = require('../schema/userSchema')
-const productSchema = require('../schema/productSchema')
 
 class userService {
   async signUp(userData) {
@@ -33,6 +32,7 @@ class userService {
       return new Promise((resolve, reject) => {
         user.comparePassword(loginDetails.Password,function(err,isMatch)
         {
+          console.log(isMatch)
           if(err) reject(err)
           if(isMatch){
             const JWTtoken = jwt.sign(
@@ -41,6 +41,7 @@ class userService {
                 expiresIn:'2h',
               }
             )
+            console.log(JWTtoken)
             resolve({JWTtoken})
           }
         })
@@ -48,6 +49,19 @@ class userService {
     }catch(error){
       console.log('ERROR: ', error)
     }
+  }
+
+  AddToCart(addToCartItems){
+    return new Promise((resolve,reject) => {
+      // Const _id = ''
+      try{
+        const CartData = userSchema.findOne({_id:addToCartItems._id})
+        resolve(CartData)
+        reject('rejected')
+      }catch(error){
+        console.log('ERROR: ', error)
+      }
+    })
   }
 
   getData(){
@@ -65,7 +79,7 @@ class userService {
   getDataById(getDatafromId){
     return new Promise((resolve,reject) => {
       try{
-        const getIdData = userSchema.findOne(getDatafromId._id)
+        const getIdData = userSchema.findOne({_id:getDatafromId._id})
         resolve(getIdData)
         reject('rejected')
       }catch(error){
@@ -73,7 +87,7 @@ class userService {
       }
     })
   }
-  
+
   async forgotPassword(forgotEmail) {
     try{
       userSchema.findOne({email:forgotEmail.email},function(err){
@@ -133,22 +147,6 @@ class userService {
       })
     }catch(error){
       console.log('ERROR: ', error)
-    }
-  }
-
-  Search(allSearchData){
-    try{
-      return new Promise((resolve,reject) => {
-        const searchQuery = {
-          productName: {$regex: (allSearchData.Name),  $options: 'i'},
-        }
-        const searchData=  productSchema.find(searchQuery)
-        resolve(searchData)
-        reject('rejected')
-      })
-
-    }catch(error){
-      console.log('ERROR: ', error) 
     }
   }
 }

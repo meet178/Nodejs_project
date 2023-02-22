@@ -24,6 +24,16 @@ class userController {
     )
   }
 
+  async AddToCart(req,res)
+  {
+    const addToCartItems=req.body
+    responseHandler.sendSuccessResponse(
+      res,
+      await userService.AddToCart(addToCartItems),
+      HTTP_STATUS_CONSTANTS.OK,
+    )
+  }
+
   async getData(req,res)
   {
     const allDBdata=req.body
@@ -69,15 +79,6 @@ class userController {
       res,
       userService.Delete(deleteUserDetails),
       'Data Deleted Succesfully',
-      HTTP_STATUS_CONSTANTS.OK,
-    )
-  }
-
-  async Search(req,res){
-    const allSearchData=req.body
-    responseHandler.sendSuccessResponse(
-      res,
-      await userService.Search(allSearchData),
       HTTP_STATUS_CONSTANTS.OK,
     )
   }

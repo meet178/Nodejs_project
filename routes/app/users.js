@@ -8,11 +8,11 @@ const appRouter = express.Router()
 
 appRouter.post('/signup', JoiValidatorMiddleware(userSignup.signUp()), userController.signUp)
 appRouter.post('/login', JoiValidatorMiddleware(userSignup.login()),userController.login)
-appRouter.post('/Search',userController.Search)
-appRouter.put('/Update', userController.Update)
-appRouter.get('/getAllData',userController.getData)
-appRouter.get('getDataById',userController.getDataById)
-appRouter.get('/forgetPassword', JoiValidatorMiddleware(userSignup.forgetPassword()),jwtMiddleware,userController.forgetPassword)
-appRouter.delete('/delete',userController.Delete)
+appRouter.post('/addToCart',jwtMiddleware,userController.AddToCart)
+appRouter.put('/updateProfile',JoiValidatorMiddleware(userSignup.updateProfile()),jwtMiddleware, userController.Update)
+appRouter.get('/getAllUsers',userController.getData)
+appRouter.get('/getProfile',userController.getDataById)
+appRouter.get('/forgetPassword',JoiValidatorMiddleware(userSignup.forgetPassword()),jwtMiddleware,userController.forgetPassword)
+appRouter.delete('/deleteUser',JoiValidatorMiddleware(userSignup.deleteUser()),userController.Delete)
 
 module.exports = appRouter

@@ -41,6 +41,7 @@ const userSchema = new Schema({
     type: String,
   },
 })
+
 userSchema.pre('save', function(next){
   const user = this
 

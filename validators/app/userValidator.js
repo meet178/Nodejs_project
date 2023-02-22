@@ -5,7 +5,7 @@ const Joi = require('joi')
  * @class userSignup
  */
 class userSignup
- {
+{
   signUp() {
     return Joi.object({
       body: Joi.object({
@@ -30,10 +30,44 @@ class userSignup
     }).unknown()
   }
 
+  updateProfile(){
+    return Joi.object({
+      body: Joi.object({
+        _id: Joi.required(),
+        Name: Joi.string(),
+        MoNum: Joi.number().integer().min(10 ** 9).max(10 ** 10 - 1).required(),
+        email: Joi.string().email().lowercase().required(),
+        Password: Joi.string().min(8),
+        GST_Num: Joi.number().min(15).required(),
+        Address: Joi.string(),
+        City: Joi.string(),
+        District: Joi.string()
+      }).unknown(false),
+    }).unknown()
+  }
+
+  /*
+   * GetProfile(){
+   *   return Joi.object({
+   *     body: Joi.object({
+   *       _id: Joi.required()
+   *     }).unknown(false),
+   *   }).unknown()
+   * }
+   */
+
   forgetPassword(){
     return Joi.object({
       body: Joi.object({
         email: Joi.string().email().lowercase().required()
+      }).unknown(false),
+    }).unknown()
+  }
+
+  deleteUser(){
+    return Joi.object({
+      body: Joi.object({
+        _id: Joi.required()
       }).unknown(false),
     }).unknown()
   }
