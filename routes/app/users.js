@@ -6,7 +6,6 @@ const {jwtMiddleware} = require('../../middlewares')
 
 const appRouter = express.Router()
 
-// API
 appRouter.post('/signup', JoiValidatorMiddleware(userSignup.userSignUpValidation()), userController.userSignUp)
 appRouter.post('/login', JoiValidatorMiddleware(userSignup.userloginValidation()),userController.userLogin)
 appRouter.post('/addToCart',JoiValidatorMiddleware(userSignup.userAddToCartValidation()),jwtMiddleware,userController.AddToCart)
