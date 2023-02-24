@@ -6,7 +6,7 @@ const Joi = require('joi')
  */
 class userSignup
 {
-  signUp() {
+  userSignUpValidation() {
     return Joi.object({
       body: Joi.object({
         Name: Joi.string().required(),
@@ -21,7 +21,7 @@ class userSignup
     }).unknown()
   }
 
-  login(){
+  userloginValidation(){
     return Joi.object({
       body: Joi.object({
         email: Joi.string().email().lowercase().required(),
@@ -30,15 +30,23 @@ class userSignup
     }).unknown()
   }
 
-  updateProfile(){
+  userAddToCartValidation(){
+    return Joi.object({
+      body: Joi.object({
+        _id: Joi.required(),
+      }).unknown(false),
+    }).unknown()
+  }
+
+  userUpdateProfileValidation(){
     return Joi.object({
       body: Joi.object({
         _id: Joi.required(),
         Name: Joi.string(),
-        MoNum: Joi.number().integer().min(10 ** 9).max(10 ** 10 - 1).required(),
-        email: Joi.string().email().lowercase().required(),
+        MoNum: Joi.number().integer().min(10 ** 9).max(10 ** 10 - 1),
+        email: Joi.string().email().lowercase(),
         Password: Joi.string().min(8),
-        GST_Num: Joi.number().min(15).required(),
+        GST_Num: Joi.number().min(15),
         Address: Joi.string(),
         City: Joi.string(),
         District: Joi.string()
@@ -46,17 +54,7 @@ class userSignup
     }).unknown()
   }
 
-  /*
-   * GetProfile(){
-   *   return Joi.object({
-   *     body: Joi.object({
-   *       _id: Joi.required()
-   *     }).unknown(false),
-   *   }).unknown()
-   * }
-   */
-
-  forgetPassword(){
+  userforgetPasswordValidation(){
     return Joi.object({
       body: Joi.object({
         email: Joi.string().email().lowercase().required()
@@ -64,7 +62,7 @@ class userSignup
     }).unknown()
   }
 
-  deleteUser(){
+  userDeleteUserValidation(){
     return Joi.object({
       body: Joi.object({
         _id: Joi.required()

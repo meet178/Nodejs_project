@@ -6,13 +6,13 @@ const {jwtMiddleware} = require('../../middlewares')
 
 const appRouter = express.Router()
 
-appRouter.post('/signup', JoiValidatorMiddleware(userSignup.signUp()), userController.signUp)
-appRouter.post('/login', JoiValidatorMiddleware(userSignup.login()),userController.login)
-appRouter.post('/addToCart',jwtMiddleware,userController.AddToCart)
-appRouter.put('/updateProfile',JoiValidatorMiddleware(userSignup.updateProfile()),jwtMiddleware, userController.Update)
-appRouter.get('/getAllUsers',userController.getData)
-appRouter.get('/getProfile',userController.getDataById)
-appRouter.get('/forgetPassword',JoiValidatorMiddleware(userSignup.forgetPassword()),jwtMiddleware,userController.forgetPassword)
-appRouter.delete('/deleteUser',JoiValidatorMiddleware(userSignup.deleteUser()),userController.Delete)
+appRouter.post('/signup', JoiValidatorMiddleware(userSignup.userSignUpValidation()), userController.userSignUp)
+appRouter.post('/login', JoiValidatorMiddleware(userSignup.userloginValidation()),userController.userLogin)
+appRouter.post('/addToCart',JoiValidatorMiddleware(userSignup.userAddToCartValidation()),jwtMiddleware,userController.AddToCart)
+appRouter.put('/updateProfile',JoiValidatorMiddleware(userSignup.userUpdateProfileValidation()),jwtMiddleware, userController.userUpdate)
+appRouter.get('/getAllUsers',jwtMiddleware,userController.userGetData)
+appRouter.get('/getProfile',jwtMiddleware,userController.userGetDataById)
+appRouter.get('/forgetPassword',JoiValidatorMiddleware(userSignup.userforgetPasswordValidation()),jwtMiddleware,userController.userForgetPassword)
+appRouter.delete('/deleteUser',JoiValidatorMiddleware(userSignup.userDeleteUserValidation()),jwtMiddleware,userController.userDelete)
 
 module.exports = appRouter

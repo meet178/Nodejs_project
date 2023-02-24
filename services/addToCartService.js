@@ -1,35 +1,55 @@
 const addToCartSchema = require('../schema/addToCartSchema')
 
 class addToCartService {
-  addToCartSignUp(addToCartData){
+  async addToCartSignUp(addToCartData){
     try{
-      return new Promise((resolve,reject) => {
-        const checkUser = addToCartSchema.findOne({userId:addToCartData.userId})
-        console.log('Yes',checkUser)
+      const checkUser = await addToCartSchema.findOne({userId:addToCartData.userId})  
+      if(checkUser)
+      {
+        const Ids = checkUser.productIds
+        const isIds = Ids.includes(addToCartData.productId)
+        const err_msg = 'Id is simmiler'
+        if(isIds){
+          return {err_msg}
+        }
+        else
+        {
+          const array = checkUser.productIds
+          array.push(addToCartData.productId)
+          const updatproductId = addToCartSchema.updateOne(
+            {_id:checkUser._id},
+            {$set:
+              {
+                productIds: array,
+              }
+            }
+          )
+          return updatproductId
+        }
+        
+      }
+      else
+      {
         const productDetails = addToCartSchema.create({
-          userId: addToCartData.userId ,
-          productIds: addToCartData.productId ,
+          userId: addToCartData.userId,
+          productIds: [addToCartData.productId],
         })
-        resolve(productDetails)
-        reject('rejected')
-      })
-      // Return {productDetails}
+        return productDetails
+      }
     }catch(error){
       console.log(error)
     }
   }
 
   async addToCartDelete(deleteAddToCart){
-    console.log('110',deleteAddToCart)
     try{
       const addToCartUpdateData = await addToCartSchema.findOne({userId:deleteAddToCart.userId})
       const array = addToCartUpdateData.productIds
 
       const filteredArray = array.filter(e => e !== deleteAddToCart.productIds)
-      console.log(filteredArray)
        
       const updateadToCart = addToCartSchema.updateOne(
-        {_id:deleteAddToCart._id},
+        {_id:addToCartUpdateData._id},
         {$set:
           {
             productIds: filteredArray,
@@ -43,3 +63,4 @@ class addToCartService {
   }
 }
 module.exports = addToCartService
+

@@ -3,8 +3,9 @@ const {JWT_SECRET} = require('../config')
 const userSchema = require('../schema/userSchema')
 
 class userService {
-  async signUp(userData) {
-    try{
+
+  async userSignUp(userData) {
+    try{      
       userSchema.create(
         {
           Name: userData.Name,
@@ -18,34 +19,45 @@ class userService {
           Password: userData.Password,
         },
       )
+      
     }catch(error){
       console.log('ERROR: ', error)
       return {msg:'catch'}
     }
   }
   
-  async login(loginDetails) {
+  async userLogin(loginDetails) {
     try{
       const user = await userSchema.findOne({email:loginDetails.email})
+      console.log(user)
+      if(!user)
+      {
+        return 'User Not Found'
+      }
+      else{
+        return new Promise((resolve, reject) => {
+          user.comparePassword(loginDetails.Password,function(err,isMatch)
+          {
+            console.log(isMatch)
+            if(err) reject(err)
+            if(isMatch){
+              const JWTtoken = jwt.sign(
+                {userid:user._id},
+                JWT_SECRET,{
+                  expiresIn:'2h',
+                }
+              )
+              console.log(JWTtoken)
+              resolve({JWTtoken})
+            }
+            else{
+              resolve({message:'userID or password are incorrect'})
+            }
+          })
+        })
+      }
       // If(err) throw err
 
-      return new Promise((resolve, reject) => {
-        user.comparePassword(loginDetails.Password,function(err,isMatch)
-        {
-          console.log(isMatch)
-          if(err) reject(err)
-          if(isMatch){
-            const JWTtoken = jwt.sign(
-              {userid:user._id},
-              JWT_SECRET,{
-                expiresIn:'2h',
-              }
-            )
-            console.log(JWTtoken)
-            resolve({JWTtoken})
-          }
-        })
-      })
     }catch(error){
       console.log('ERROR: ', error)
     }
@@ -64,42 +76,7 @@ class userService {
     })
   }
 
-  getData(){
-    return new Promise((resolve,reject) => {
-      try{
-        const AllData = userSchema.find()
-        resolve(AllData)
-        reject('rejected')
-      }catch(error){
-        console.log('ERROR: ', error)
-      }
-    })
-  }
-
-  getDataById(getDatafromId){
-    return new Promise((resolve,reject) => {
-      try{
-        const getIdData = userSchema.findOne({_id:getDatafromId._id})
-        resolve(getIdData)
-        reject('rejected')
-      }catch(error){
-        console.log('ERROR: ', error)
-      }
-    })
-  }
-
-  async forgotPassword(forgotEmail) {
-    try{
-      userSchema.findOne({email:forgotEmail.email},function(err){
-        if(err) throw err
-      })
-    }catch(error){
-      console.log('ERROR: ', error)
-      return {}
-    }
-  }
-
-  Update(updateDetails){
+  userUpdate(updateDetails){
     try{
       return new Promise((resolve,reject) => {
         const upDate =  userSchema.updateOne(
@@ -125,7 +102,42 @@ class userService {
     }
   }
 
-  Delete(deleteUserDetails){
+  userGetData(){
+    return new Promise((resolve,reject) => {
+      try{
+        const AllData = userSchema.find()
+        resolve(AllData)
+        reject('rejected')
+      }catch(error){
+        console.log('ERROR: ', error)
+      }
+    })
+  }
+
+  userGetDataById(getDatafromId){
+    return new Promise((resolve,reject) => {
+      try{
+        const getIdData = userSchema.findOne({_id:getDatafromId._id})
+        resolve(getIdData)
+        reject('rejected')
+      }catch(error){
+        console.log('ERROR: ', error)
+      }
+    })
+  }
+
+  async userForgetPassword(forgotEmail) {
+    try{
+      userSchema.findOne({email:forgotEmail.email},function(err){
+        if(err) throw err
+      })
+    }catch(error){
+      console.log('ERROR: ', error)
+      return {}
+    }
+  }
+
+  userDelete(deleteUserDetails){
     try{
       return new Promise((resolve,reject) => {
         const Delete =  userSchema.deleteOne(

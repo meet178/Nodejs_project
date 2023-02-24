@@ -18,7 +18,6 @@ function jwtMiddleware(req,res,next){
     else
     {
       const User = await userSchema.find({_id: decoded.userid})
-      console.log('User',User)
       req.Userid = decoded.userid
       if(!User)
       {

@@ -17,6 +17,7 @@ module.exports = (error, req, res, next) => {
     next(error)
     return
   }
+  
   const errorBody = {
     message: error.message,
     data: {},

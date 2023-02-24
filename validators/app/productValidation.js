@@ -2,7 +2,7 @@ const Joi = require('joi')
 
 class productValidation
 {
-  productDetails() {
+  productDetailsValidation() {
     return Joi.object({
       body: Joi.object({
         productName: Joi.string().required(),
@@ -12,7 +12,7 @@ class productValidation
     }).unknown()
   }
 
-  Search(){
+  productSearchValidation(){
     return Joi.object({
       body: Joi.object({
         productName: Joi.string().required()
@@ -20,7 +20,7 @@ class productValidation
     }).unknown()
   }
 
-  updateProduct(){
+  updateProductValidation(){
     return Joi.object({
       body: Joi.object({
         _id: Joi.required(),
@@ -31,7 +31,7 @@ class productValidation
     }).unknown()
   } 
 
-  deleteProduct(){
+  deleteProductValidation(){
     return Joi.object({
       body: Joi.object({
         _id: Joi.required()

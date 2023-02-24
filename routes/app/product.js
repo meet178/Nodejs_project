@@ -5,10 +5,11 @@ const {productController} = require('../../controllers')
 const {jwtMiddleware} = require('../../middlewares')
 
 const productRouter = express.Router()
-productRouter.post('/productDetails', JoiValidatorMiddleware(productValidation.productDetails()), jwtMiddleware, productController.productDetails)
-productRouter.post('/Search',JoiValidatorMiddleware(productValidation.Search()),jwtMiddleware,productController.Search)
-productRouter.get('/getAllProducts',productController.getAllProducts)
-productRouter.put('/updateProduct',JoiValidatorMiddleware(productValidation.updateProduct()),jwtMiddleware,productController.updateProduct)
-productRouter.delete('/deleteProduct',JoiValidatorMiddleware(productValidation.deleteProduct()),jwtMiddleware,productController.deleteProduct)
+
+productRouter.post('/productDetails', JoiValidatorMiddleware(productValidation.productDetailsValidation()), jwtMiddleware, productController.productDetails)
+productRouter.post('/Search',JoiValidatorMiddleware(productValidation.productSearchValidation()),jwtMiddleware,productController.Search)
+productRouter.get('/getAllProducts',jwtMiddleware,productController.getAllProducts)
+productRouter.put('/updateProduct',JoiValidatorMiddleware(productValidation.updateProductValidation()),jwtMiddleware,productController.updateProduct)
+productRouter.delete('/deleteProduct',JoiValidatorMiddleware(productValidation.deleteProductValidation()),jwtMiddleware,productController.deleteProduct)
 
 module.exports = productRouter
